@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "goods", "label": "goods", "shape": "dot", "size": 10}, {"id": "ship goods", "label": "ship goods", "shape": "dot", "size": 10}, {"id": "pickup goods", "label": "pickup goods", "shape": "dot", "size": 10}, {"id": "package goods", "label": "package goods", "shape": "dot", "size": 10}, {"id": "company", "label": "company", "shape": "dot", "size": 10}, {"id": "logistic company", "label": "logistic company", "shape": "dot", "size": 10}, {"id": "quote company", "label": "quote company", "shape": "dot", "size": 10}, {"id": "logistics company", "label": "logistics company", "shape": "dot", "size": 10}, {"id": "shipment", "label": "shipment", "shape": "dot", "size": 10}, {"id": "parcel", "label": "parcel", "shape": "dot", "size": 10}, {"id": "logistics", "label": "logistics", "shape": "dot", "size": 10}, {"id": "logistics department head", "label": "logistics department head", "shape": "dot", "size": 10}, {"id": "normal post", "label": "normal post", "shape": "dot", "size": 10}, {"id": "warehouse", "label": "warehouse", "shape": "dot", "size": 10}, {"id": "warehousemen", "label": "warehousemen", "shape": "dot", "size": 10}, {"id": "b", "label": "b", "shape": "dot", "size": 10}, {"id": "insurance", "label": "insurance", "shape": "dot", "size": 10}, {"id": "parcel insurance", "label": "parcel insurance", "shape": "dot", "size": 10}, {"id": "no insurance", "label": "no insurance", "shape": "dot", "size": 10}, {"id": "shipping", "label": "shipping", "shape": "dot", "size": 10}, {"id": "shipping method", "label": "shipping method", "shape": "dot", "size": 10}, {"id": "select shipping", "label": "select shipping", "shape": "dot", "size": 10}, {"id": "shipping type", "label": "shipping type", "shape": "dot", "size": 10}, {"id": "special shipping", "label": "special shipping", "shape": "dot", "size": 10}, {"id": "customer order", "label": "customer order", "shape": "dot", "size": 10}, {"id": "select offer", "label": "select offer", "shape": "dot", "size": 10}, {"id": "special handling", "label": "special handling", "shape": "dot", "size": 10}, {"id": "offers", "label": "offers", "shape": "dot", "size": 10}, {"id": "three offers", "label": "three offers", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"color": "blue", "from": "goods", "to": "ship goods", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "goods", "to": "pickup goods", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "goods", "to": "package goods", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "company", "to": "logistic company", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "company", "to": "quote company", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "company", "to": "logistics company", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipment", "to": "parcel", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "logistics", "to": "logistics department head", "type": "Undirected", "weight": 1}, {"color": "red", "from": "normal post", "to": "normal post", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "warehouse", "to": "warehousemen", "type": "Undirected", "weight": 1}, {"color": "red", "from": "b", "to": "b", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "insurance", "to": "parcel insurance", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "insurance", "to": "no insurance", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "shipping method", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "select shipping", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "shipping type", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "special shipping", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "customer order", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "select offer", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "shipping", "to": "special handling", "type": "Undirected", "weight": 1}, {"color": "blue", "from": "offers", "to": "three offers", "type": "Undirected", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
